@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yogish Bakshi — Data Analyst</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,900;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --cream: #faf6ef;
+    --ink: #111108;
+    --mustard: #d4a017;
+    --rust: #c0392b;
+    --teal: #1a6b5c;
+    --pale: #f0ead8;
+    --mid: #c8bc9e;
+    --border: rgba(17,17,8,0.15);
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Space Mono', monospace; background: var(--cream); color: var(--ink); overflow-x: hidden; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.1rem 3rem;
+    background: var(--mustard);
+    border-bottom: 3px solid var(--ink);
+  }
+  .nav-logo { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 900; color: var(--ink); letter-spacing: -0.02em; }
+  .nav-links { display: flex; gap: 1.8rem; list-style: none; }
+  .nav-links a { font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink); text-decoration: none; font-weight: 700; }
+  .nav-links a:hover { text-decoration: underline; text-underline-offset: 4px; }
+  .nav-hire { background: var(--ink); color: var(--mustard); border: none; padding: 0.6rem 1.4rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; }
+  .nav-hire:hover { background: var(--teal); color: var(--cream); }
+
+  /* ── HERO ── */
+  .hero { display: grid; grid-template-columns: 3fr 2fr; border-bottom: 3px solid var(--ink); }
+  .hero-left { padding: 5rem 3rem 4rem; border-right: 3px solid var(--ink); }
+  .hero-kicker { font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 1rem; font-weight: 700; }
+  .hero-name { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem, 6vw, 6rem); font-weight: 900; line-height: 0.95; letter-spacing: -0.03em; color: var(--ink); margin-bottom: 0.5rem; }
+  .hero-name em { font-style: italic; color: var(--rust); }
+  .hero-role { font-size: 0.78rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink); border-left: 4px solid var(--mustard); padding-left: 0.8rem; margin: 1.5rem 0; line-height: 1.6; }
+  .hero-bio { font-size: 0.75rem; line-height: 1.9; color: #3a3a28; max-width: 500px; margin-bottom: 2rem; }
+  .hero-btns { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+  .btn-a { background: var(--ink); color: var(--cream); border: 2px solid var(--ink); padding: 0.7rem 1.6rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; }
+  .btn-a:hover { background: var(--rust); border-color: var(--rust); }
+  .btn-b { background: transparent; color: var(--ink); border: 2px solid var(--ink); padding: 0.7rem 1.6rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; text-decoration: none; display: inline-block; }
+  .btn-b:hover { background: var(--pale); }
+
+  .hero-right { padding: 3rem 2.5rem; background: var(--pale); display: flex; flex-direction: column; justify-content: space-between; }
+  .cert-list { margin-bottom: 2rem; }
+  .cert-list-label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #aaa; margin-bottom: 0.6rem; }
+  .cert-badge { display: block; background: var(--ink); color: var(--mustard); padding: 0.4rem 0.7rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.4rem; }
+  .stat-wrap { background: var(--ink); display: grid; grid-template-columns: 1fr 1fr; gap: 2px; }
+  .stat-item { background: var(--cream); padding: 1rem; text-align: center; }
+  .stat-n { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; color: var(--ink); line-height: 1; }
+  .stat-n span { color: var(--rust); }
+  .stat-l { font-size: 0.58rem; letter-spacing: 0.08em; text-transform: uppercase; color: #888; margin-top: 4px; }
+  .availability { background: var(--teal); color: var(--cream); padding: 0.8rem; font-size: 0.62rem; font-weight: 700; letter-spacing: 0.06em; text-align: center; text-transform: uppercase; margin-top: 2px; }
+
+  /* ── TICKER ── */
+  .ticker { background: var(--ink); color: var(--mustard); padding: 0.6rem 0; overflow: hidden; border-bottom: 3px solid var(--mustard); }
+  .ticker-inner { display: flex; animation: scroll-left 20s linear infinite; white-space: nowrap; }
+  .ticker-inner span { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; padding: 0 2rem; }
+  .ticker-sep { color: var(--rust); }
+  @keyframes scroll-left { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+
+  /* ── SECTION SHARED ── */
+  section { border-bottom: 3px solid var(--ink); }
+  .sec-inner { padding: 3.5rem 3rem; }
+  .sec-head { display: flex; align-items: baseline; gap: 1.5rem; margin-bottom: 2.5rem; }
+  .sec-title { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; letter-spacing: -0.02em; color: var(--ink); }
+  .sec-num { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); flex-shrink: 0; }
+  .sec-rule { flex: 1; height: 1px; background: var(--mid); }
+  .sec-sub { font-size: 0.7rem; line-height: 1.8; color: #666; margin-top: -1.5rem; margin-bottom: 2.5rem; max-width: 640px; }
+
+  /* ── SERVICES ── */
+  .feat-row { display: grid; grid-template-columns: 1fr 1fr; border-top: 3px solid var(--ink); }
+  .feat-card { padding: 2.2rem 2.5rem; border-right: 3px solid var(--ink); border-bottom: 3px solid var(--ink); transition: background .15s; }
+  .feat-card:last-child { border-right: none; }
+  .feat-card:hover { background: var(--mustard); }
+  .feat-card.dark { background: var(--ink); }
+  .feat-card.dark:hover { background: #1a1a12; }
+  .feat-card.dark .srv-num { color: #555; }
+  .feat-card.dark .srv-name { color: var(--cream); }
+  .feat-card.dark .srv-desc { color: #bbb; }
+  .feat-card.dark .srv-price { color: var(--mustard); border-top-color: #444; }
+  .feat-card.dark .srv-tag { background: #222; border-color: #444; color: #ccc; }
+  .srv-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 3px solid var(--ink); }
+  .srv-card { padding: 1.8rem 2rem; border-right: 2px solid var(--ink); border-bottom: 2px solid var(--ink); transition: background .15s; }
+  .srv-card:hover { background: var(--pale); }
+  .srv-card:nth-child(3n) { border-right: none; }
+  .srv-num { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: var(--mid); margin-bottom: 0.7rem; }
+  .srv-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; font-weight: 900; color: var(--ink); margin-bottom: 0.5rem; line-height: 1.2; }
+  .srv-desc { font-size: 0.67rem; line-height: 1.85; color: #555; margin-bottom: 0.8rem; }
+  .srv-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 0.8rem; }
+  .srv-tag { font-size: 0.56rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--pale); border: 1px solid var(--mid); color: #555; padding: 2px 7px; }
+  .srv-price { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); border-top: 1px solid var(--mid); padding-top: 0.7rem; }
+  .srv-price-note { font-size: 0.56rem; color: #aaa; font-weight: 400; letter-spacing: 0.04em; text-transform: none; margin-top: 2px; }
+  .feat-card .srv-name { font-size: 1.3rem; margin-bottom: 0.7rem; }
+  .feat-card .srv-desc { font-size: 0.72rem; line-height: 1.9; }
+  .highlight-band { background: var(--mustard); border-top: 3px solid var(--ink); border-bottom: 3px solid var(--ink); padding: 1.5rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .hb-text { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; color: var(--ink); }
+  .hb-pills { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+  .hb-pill { background: var(--ink); color: var(--mustard); font-size: 0.58rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; padding: 4px 10px; }
+  .training-grid { display: grid; grid-template-columns: 1fr 2fr; }
+  .training-left { background: var(--teal); padding: 2.5rem; border-right: 3px solid var(--ink); display: flex; flex-direction: column; justify-content: space-between; }
+  .training-title { font-family: 'Playfair Display', serif; font-size: 1.4rem; font-weight: 900; color: #e1f5ee; line-height: 1.2; margin-bottom: 1rem; }
+  .training-num { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.12em; color: #9fe1cb; margin-bottom: 0.6rem; }
+  .training-best-label { font-size: 0.65rem; color: #9fe1cb; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; margin-bottom: 0.3rem; }
+  .training-best-desc { font-size: 0.68rem; color: #e1f5ee; line-height: 1.7; }
+  .training-price { border-top: 1px solid #5dcaa5; padding-top: 0.8rem; margin-top: 1.5rem; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #5dcaa5; }
+  .training-price-note { font-size: 0.56rem; color: #9fe1cb; margin-top: 3px; font-weight: 400; text-transform: none; }
+  .training-right { padding: 2.5rem; display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem 2.5rem; }
+  .training-item-title { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+  .training-item-desc { font-size: 0.68rem; line-height: 1.8; color: #555; }
+
+  /* ── EXPERIENCE ── */
+  .exp-item { display: grid; grid-template-columns: 200px 1fr; gap: 2rem; padding: 1.8rem 0; border-bottom: 1px solid var(--mid); }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date { font-weight: 700; color: var(--teal); font-size: 0.62rem; display: block; margin-bottom: 4px; letter-spacing: 0.06em; }
+  .exp-org { font-weight: 700; font-size: 0.72rem; color: var(--ink); display: block; margin-bottom: 2px; }
+  .exp-loc { font-size: 0.6rem; color: #aaa; }
+  .exp-title { font-family: 'Playfair Display', serif; font-size: 1.3rem; font-weight: 900; color: var(--ink); margin-bottom: 0.5rem; }
+  .exp-body { font-size: 0.7rem; line-height: 1.8; color: #444; }
+  .exp-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 0.8rem; }
+  .exp-tag { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.06em; text-transform: uppercase; background: var(--pale); border: 1px solid var(--mid); color: var(--ink); padding: 3px 8px; }
+
+  /* ── PROJECTS ── */
+  .proj-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+  .proj-card { border: 2px solid var(--ink); overflow: hidden; cursor: pointer; transition: transform .2s; }
+  .proj-card:hover { transform: translateY(-4px); }
+  .proj-thumb { height: 175px; background: var(--pale); display: flex; align-items: center; justify-content: center; position: relative; }
+  .proj-thumb svg { width: 100%; height: 100%; }
+  .proj-tag { position: absolute; top: 1rem; left: 1rem; font-size: 0.6rem; letter-spacing: 0.08em; text-transform: uppercase; background: var(--ink); color: var(--cream); padding: 3px 8px; font-weight: 700; }
+  .proj-body { padding: 1.5rem; }
+  .proj-title { font-family: 'Playfair Display', serif; font-weight: 900; font-size: 1.05rem; color: var(--ink); margin-bottom: 0.5rem; }
+  .proj-desc { font-size: 0.7rem; line-height: 1.75; color: #555; margin-bottom: 1rem; }
+  .proj-tools { display: flex; gap: 6px; flex-wrap: wrap; }
+  .proj-tool { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; padding: 3px 8px; background: var(--pale); color: #555; border: 1px solid var(--mid); }
+
+  /* ── SKILLS ── */
+  .sk-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+  .sk-group-title { font-size: 0.62rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: var(--mid); border-bottom: 2px solid var(--ink); padding-bottom: 0.4rem; margin-bottom: 1rem; }
+  .sk-row { display: flex; align-items: center; gap: 0.8rem; margin-bottom: 0.7rem; }
+  .sk-name { font-size: 0.68rem; width: 120px; flex-shrink: 0; font-weight: 700; color: var(--ink); }
+  .sk-track { flex: 1; height: 6px; background: var(--pale); border: 1px solid var(--mid); }
+  .sk-fill { height: 100%; background: var(--ink); transform: scaleX(0); transform-origin: left; animation: fillbar 1.2s ease forwards; }
+  @keyframes fillbar { to { transform: scaleX(1); } }
+  .sk-pct { font-size: 0.6rem; color: #aaa; width: 28px; text-align: right; }
+
+  /* ── CERTIFICATIONS ── */
+  .cert-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .cert-card { border: 2px solid var(--ink); padding: 1.2rem; background: var(--pale); }
+  .cert-issuer { font-size: 0.58rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.3rem; }
+  .cert-name { font-family: 'Playfair Display', serif; font-size: 0.9rem; font-weight: 900; color: var(--ink); line-height: 1.3; }
+  .cert-card.accent { background: var(--mustard); }
+
+  /* ── TESTIMONIALS ── */
+  .test-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+  .test-card { border: 2px solid var(--ink); padding: 1.8rem; background: var(--pale); }
+  .test-quote { font-family: 'Playfair Display', serif; font-style: italic; font-size: 0.85rem; line-height: 1.75; color: var(--ink); margin-bottom: 1.2rem; }
+  .test-name { font-size: 0.72rem; font-weight: 700; color: var(--teal); }
+  .test-role { font-size: 0.62rem; color: #888; margin-top: 2px; }
+
+  /* ── CONTACT ── */
+  .contact-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
+  .contact-headline { font-family: 'Playfair Display', serif; font-size: 2.2rem; font-weight: 900; line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 1rem; }
+  .contact-headline em { font-style: italic; color: var(--rust); }
+  .contact-sub { font-size: 0.72rem; line-height: 1.8; color: #555; margin-bottom: 1.5rem; }
+  .contact-detail { font-size: 0.7rem; line-height: 2.2; color: #444; }
+  .contact-detail strong { color: var(--teal); font-weight: 700; }
+  .cform { display: flex; flex-direction: column; gap: 1rem; }
+  .cform label { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: #888; display: block; margin-bottom: 3px; }
+  .cform input, .cform textarea, .cform select {
+    width: 100%; font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    background: var(--pale); border: 2px solid var(--mid); color: var(--ink);
+    padding: 0.65rem 0.9rem; outline: none; transition: border-color .15s;
+  }
+  .cform input:focus, .cform textarea:focus, .cform select:focus { border-color: var(--ink); }
+  .cform textarea { resize: vertical; min-height: 110px; }
+  .cform-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .cform-btn { background: var(--rust); color: var(--cream); border: 2px solid var(--rust); padding: 0.8rem 2rem; font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; cursor: pointer; align-self: flex-start; transition: background .15s, border-color .15s; }
+  .cform-btn:hover { background: var(--ink); border-color: var(--ink); }
+
+  /* ── FOOTER ── */
+  footer { background: var(--ink); color: var(--cream); padding: 2rem 3rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+  .foot-left { font-family: 'Playfair Display', serif; font-size: 1.1rem; font-style: italic; }
+  .foot-right { display: flex; gap: 1.5rem; flex-wrap: wrap; }
+  .foot-right a { font-size: 0.6rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; color: var(--mustard); text-decoration: none; }
+  .foot-right a:hover { color: var(--cream); }
+
+  /* ── SCROLL FADE ── */
+  .fade-up { opacity: 0; transform: translateY(20px); transition: opacity .6s ease, transform .6s ease; }
+  .fade-up.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">YB.</div>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#certs">Certs</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-hire">Hire Me &rarr;</a>
+</nav>
+
+<!-- HERO -->
+<section style="border-bottom: 3px solid var(--ink);">
+  <div class="hero">
+    <div class="hero-left fade-up">
+      <div class="hero-kicker">&#9679; Oracle Certified &nbsp;&bull;&nbsp; Available Worldwide (Remote)</div>
+      <h1 class="hero-name">Yogish<br><em>Bakshi</em></h1>
+      <div class="hero-role">OAAC Certified Data Analyst<br>SQL &bull; Python &bull; BigQuery &bull; ETL &bull; BI</div>
+      <p class="hero-bio">I'm an Oracle Certified Cloud Analyst based in Delhi, India. I turn messy data into clear decisions — building automated KPI dashboards, designing ETL pipelines, and shipping ML-powered prediction tools for clients across e-commerce, pharma, non-profit, and services industries. I've supported donor analytics at Humanity Pathways (USA) and delivered projects globally.</p>
+      <div class="hero-btns">
+        <a href="#projects" class="btn-a">See My Work</a>
+        <a href="https://www.linkedin.com/in/yogish-bakshi" target="_blank" class="btn-b">LinkedIn &rarr;</a>
+      </div>
+    </div>
+    <div class="hero-right fade-up" style="animation-delay:.15s">
+      <div class="cert-list">
+        <div class="cert-list-label">Certifications</div>
+        <span class="cert-badge">Oracle Analytics Cloud 2025</span>
+        <span class="cert-badge">Microsoft &mdash; Data Analysis</span>
+        <span class="cert-badge">Microsoft &mdash; Generative AI</span>
+        <span class="cert-badge">Quantium &mdash; Data Analytics</span>
+        <span class="cert-badge">GE Aerospace &mdash; HR Explore</span>
+      </div>
+      <div>
+        <div class="stat-wrap">
+          <div class="stat-item"><div class="stat-n">3<span>+</span></div><div class="stat-l">Years Exp.</div></div>
+          <div class="stat-item"><div class="stat-n">15<span>+</span></div><div class="stat-l">Projects</div></div>
+          <div class="stat-item"><div class="stat-n">4</div><div class="stat-l">Industries</div></div>
+          <div class="stat-item"><div class="stat-n">5</div><div class="stat-l">Certifications</div></div>
+        </div>
+        <div class="availability">&#9679; &nbsp; Open to freelance &amp; contract work</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker">
+  <div class="ticker-inner">
+    <span>SQL <span class="ticker-sep">&diams;</span></span>
+    <span>Python <span class="ticker-sep">&diams;</span></span>
+    <span>BigQuery <span class="ticker-sep">&diams;</span></span>
+    <span>Tableau <span class="ticker-sep">&diams;</span></span>
+    <span>Power BI <span class="ticker-sep">&diams;</span></span>
+    <span>Looker Studio <span class="ticker-sep">&diams;</span></span>
+    <span>ETL Pipelines <span class="ticker-sep">&diams;</span></span>
+    <span>Data Modeling <span class="ticker-sep">&diams;</span></span>
+    <span>Scikit-learn <span class="ticker-sep">&diams;</span></span>
+    <span>Streamlit <span class="ticker-sep">&diams;</span></span>
+    <span>GCP <span class="ticker-sep">&diams;</span></span>
+    <span>Oracle Cloud <span class="ticker-sep">&diams;</span></span>
+    <span>Excel <span class="ticker-sep">&diams;</span></span>
+    <span>T-SQL <span class="ticker-sep">&diams;</span></span>
+    <span>Pandas <span class="ticker-sep">&diams;</span></span>
+    <span>Neural Networks <span class="ticker-sep">&diams;</span></span>
+    <span>SQL <span class="ticker-sep">&diams;</span></span>
+    <span>Python <span class="ticker-sep">&diams;</span></span>
+    <span>BigQuery <span class="ticker-sep">&diams;</span></span>
+    <span>Tableau <span class="ticker-sep">&diams;</span></span>
+    <span>Power BI <span class="ticker-sep">&diams;</span></span>
+    <span>Looker Studio <span class="ticker-sep">&diams;</span></span>
+    <span>ETL Pipelines <span class="ticker-sep">&diams;</span></span>
+    <span>Data Modeling <span class="ticker-sep">&diams;</span></span>
+    <span>Scikit-learn <span class="ticker-sep">&diams;</span></span>
+    <span>Streamlit <span class="ticker-sep">&diams;</span></span>
+    <span>GCP <span class="ticker-sep">&diams;</span></span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">01</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">What I Offer</h2>
+    </div>
+    <p class="sec-sub fade-up">Nine ways I can help your business make better decisions with data — scoped clearly, delivered on time, and priced fairly for the Indian market.</p>
+  </div>
+
+  <div class="feat-row fade-up">
+    <div class="feat-card">
+      <div class="srv-num">001 &mdash; FLAGSHIP</div>
+      <div class="srv-name">Dashboard Design &amp; BI Development</div>
+      <div class="srv-desc">Your data is already telling a story. I make sure the right people can hear it. I design and build executive dashboards, ops reports, and self-serve BI tools in Tableau, Power BI, Looker Studio, and Streamlit — with the KPIs that actually move your business, not just the ones that look impressive in a slide deck.</div>
+      <div class="srv-tags"><span class="srv-tag">Tableau</span><span class="srv-tag">Power BI</span><span class="srv-tag">Looker Studio</span><span class="srv-tag">Streamlit</span><span class="srv-tag">DAX</span></div>
+      <div class="srv-price">&#8377;3,000 &mdash; &#8377;8,000 per dashboard
+        <div class="srv-price-note">Depending on complexity &amp; number of pages</div>
+      </div>
+    </div>
+    <div class="feat-card dark">
+      <div class="srv-num">002 &mdash; FLAGSHIP</div>
+      <div class="srv-name">Reporting &amp; Business Insights</div>
+      <div class="srv-desc">Weekly sales reports that write themselves. Monthly performance decks that don't require three people to compile. I build automated, scheduled reporting systems — pulling from your data sources, formatting cleanly, and landing where you need them without manual effort. You focus on the insight, not the spreadsheet.</div>
+      <div class="srv-tags"><span class="srv-tag">Automated Reports</span><span class="srv-tag">KPI Tracking</span><span class="srv-tag">Google Sheets</span><span class="srv-tag">Excel</span><span class="srv-tag">SQL</span></div>
+      <div class="srv-price">&#8377;2,000 &mdash; &#8377;6,000 per project
+        <div class="srv-price-note">One-off or monthly retainer available</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="srv-grid fade-up">
+    <div class="srv-card">
+      <div class="srv-num">003</div>
+      <div class="srv-name">SQL &amp; Database Work</div>
+      <div class="srv-desc">Messy schema? Queries that take 40 seconds? I audit, redesign, optimise, and document your database layer — then write the stored procedures, views, and queries your team will actually reuse.</div>
+      <div class="srv-tags"><span class="srv-tag">T-SQL</span><span class="srv-tag">BigQuery</span><span class="srv-tag">SSMS</span><span class="srv-tag">Optimisation</span></div>
+      <div class="srv-price">&#8377;500 &mdash; &#8377;1,500 / hr
+        <div class="srv-price-note">Or &#8377;3,000–&#8377;10,000 fixed per project</div>
+      </div>
+    </div>
+    <div class="srv-card">
+      <div class="srv-num">004</div>
+      <div class="srv-name">ETL &amp; Data Pipeline Design</div>
+      <div class="srv-desc">Automated pipelines that extract from databases, APIs, spreadsheets, and cloud tools — then clean, transform, and load wherever you need it. Built to run on schedule and alert you when something breaks.</div>
+      <div class="srv-tags"><span class="srv-tag">ETL</span><span class="srv-tag">Python</span><span class="srv-tag">Pandas</span><span class="srv-tag">GCP</span><span class="srv-tag">Automation</span></div>
+      <div class="srv-price">&#8377;5,000 &mdash; &#8377;15,000 per pipeline
+        <div class="srv-price-note">Based on sources, frequency &amp; complexity</div>
+      </div>
+    </div>
+    <div class="srv-card">
+      <div class="srv-num">005</div>
+      <div class="srv-name">Data Warehousing</div>
+      <div class="srv-desc">Star-schema DWH with layered Bronze &rarr; Silver &rarr; Gold architecture. One source of truth so Marketing, Sales, and Finance stop arguing about whose numbers are right.</div>
+      <div class="srv-tags"><span class="srv-tag">Star Schema</span><span class="srv-tag">T-SQL</span><span class="srv-tag">BigQuery</span><span class="srv-tag">Modeling</span></div>
+      <div class="srv-price">&#8377;8,000 &mdash; &#8377;20,000 per engagement
+        <div class="srv-price-note">Includes design, build &amp; documentation</div>
+      </div>
+    </div>
+    <div class="srv-card">
+      <div class="srv-num">006</div>
+      <div class="srv-name">Predictive Analytics &amp; ML</div>
+      <div class="srv-desc">Churn prediction. Pricing models. Demand forecasting. I build Scikit-learn models, wrap them in clean Streamlit interfaces, and explain outputs in plain English — not just a confusion matrix.</div>
+      <div class="srv-tags"><span class="srv-tag">Scikit-learn</span><span class="srv-tag">Regression</span><span class="srv-tag">Classification</span><span class="srv-tag">Streamlit</span></div>
+      <div class="srv-price">&#8377;8,000 &mdash; &#8377;25,000 per model
+        <div class="srv-price-note">Includes EDA, training, deployment &amp; UI</div>
+      </div>
+    </div>
+    <div class="srv-card">
+      <div class="srv-num">007</div>
+      <div class="srv-name">Cloud Analytics (GCP &amp; Oracle)</div>
+      <div class="srv-desc">Oracle Analytics Cloud 2025 certified. I design, deploy, and maintain cloud-native analytics stacks on GCP and OAC — BigQuery pipelines, Looker integrations, and scalable reporting layers.</div>
+      <div class="srv-tags"><span class="srv-tag">Oracle OAC</span><span class="srv-tag">BigQuery</span><span class="srv-tag">GCP</span><span class="srv-tag">Looker</span></div>
+      <div class="srv-price">&#8377;6,000 &mdash; &#8377;18,000 per project
+        <div class="srv-price-note">Cloud infra costs billed separately</div>
+      </div>
+    </div>
+    <div class="srv-card">
+      <div class="srv-num">008</div>
+      <div class="srv-name">Ad-Hoc Analysis</div>
+      <div class="srv-desc">Got a burning question and a dataset? Send it over. I'll dig in, run the numbers, and come back with a clear answer, supporting visuals, and reasoning — no fluff, no filler.</div>
+      <div class="srv-tags"><span class="srv-tag">EDA</span><span class="srv-tag">Python</span><span class="srv-tag">SQL</span><span class="srv-tag">Quick Turnaround</span></div>
+      <div class="srv-price">&#8377;800 &mdash; &#8377;2,000 per session
+        <div class="srv-price-note">Typical turnaround: 24–48 hours</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="highlight-band fade-up">
+    <div class="hb-text">"I don't just hand you a dashboard and disappear."</div>
+    <div class="hb-pills">
+      <span class="hb-pill">Documentation included</span>
+      <span class="hb-pill">Async-friendly</span>
+      <span class="hb-pill">On-time delivery</span>
+    </div>
+  </div>
+
+  <div class="training-grid fade-up" style="border-top: 3px solid var(--ink);">
+    <div class="training-left">
+      <div>
+        <div class="training-num">009 &mdash; PREMIUM</div>
+        <div class="training-title">Training &amp;<br>Consulting</div>
+        <div class="training-best-label">Best for</div>
+        <div class="training-best-desc">Teams. Founders. Analysts who want to level up. Businesses that need a data strategy — not just a report.</div>
+      </div>
+      <div class="training-price">&#8377;500 &mdash; &#8377;1,000 / hr
+        <div class="training-price-note">Monthly retainer from &#8377;4,000 / month</div>
+      </div>
+    </div>
+    <div class="training-right">
+      <div>
+        <div class="training-item-title">SQL &amp; Python Workshops</div>
+        <div class="training-item-desc">Live or async training sessions for teams — from SQL basics to Python-powered analytics. Customised to your stack and skill level.</div>
+      </div>
+      <div>
+        <div class="training-item-title">Data Strategy Audit</div>
+        <div class="training-item-desc">I review your current data stack and workflows — then give you a clear, prioritised roadmap for becoming genuinely data-driven. No jargon, no 80-page decks.</div>
+      </div>
+      <div>
+        <div class="training-item-title">Dashboard Walkthroughs</div>
+        <div class="training-item-desc">After delivery, I walk your team through every dashboard I build — so they can use, maintain, and extend it without depending on me forever.</div>
+      </div>
+      <div>
+        <div class="training-item-title">Ongoing Retainer</div>
+        <div class="training-item-desc">Monthly retainer for startups and SMEs that need a data analyst on call — without the cost of a full-time hire. Flexible hours, fast response.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXPERIENCE -->
+<section id="experience">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">02</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">Experience</h2>
+    </div>
+    <div class="fade-up">
+      <div class="exp-item">
+        <div>
+          <span class="exp-date">Apr 2025 &mdash; Present</span>
+          <span class="exp-org">Humanity Pathways Global</span>
+          <span class="exp-loc">Michigan, USA (Remote)</span>
+        </div>
+        <div>
+          <div class="exp-title">Research Analyst</div>
+          <div class="exp-body">Supporting donor analytics and research insights for a US-based non-profit. Delivering data-driven reporting to guide fundraising strategy and programme effectiveness across international operations.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Non-profit Analytics</span>
+            <span class="exp-tag">Donor Insights</span>
+            <span class="exp-tag">Reporting</span>
+            <span class="exp-tag">Remote</span>
+          </div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div>
+          <span class="exp-date">Jun &mdash; Aug 2024</span>
+          <span class="exp-org">Sarvagya Institute</span>
+          <span class="exp-loc">New Delhi, India</span>
+        </div>
+        <div>
+          <div class="exp-title">Data Analyst</div>
+          <div class="exp-body">Delivered data analysis and reporting solutions for an educational institution. Built dashboards and automated reporting workflows to support operational and academic decision-making.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Dashboards</span>
+            <span class="exp-tag">SQL</span>
+            <span class="exp-tag">Education</span>
+            <span class="exp-tag">Reporting</span>
+          </div>
+        </div>
+      </div>
+      <div class="exp-item">
+        <div>
+          <span class="exp-date">Feb 2022 &mdash; Apr 2024</span>
+          <span class="exp-org">Freelance</span>
+          <span class="exp-loc">Global (Remote)</span>
+        </div>
+        <div>
+          <div class="exp-title">Data Scientist &amp; Analyst</div>
+          <div class="exp-body">2+ years helping retail, education, and marketing clients turn raw data into clear decisions. Built intuitive dashboards in Looker Studio, Power BI, and Tableau; automated reporting with SQL and Google Sheets; extracted and cleaned multi-source data; translated business needs into custom KPIs; supported campaign and performance analytics.</div>
+          <div class="exp-tags">
+            <span class="exp-tag">Looker Studio</span>
+            <span class="exp-tag">Power BI</span>
+            <span class="exp-tag">Tableau</span>
+            <span class="exp-tag">SQL</span>
+            <span class="exp-tag">Python</span>
+            <span class="exp-tag">ML</span>
+            <span class="exp-tag">Retail</span>
+            <span class="exp-tag">Marketing</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROJECTS -->
+<section id="projects">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">03</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">Selected Work</h2>
+    </div>
+    <div class="proj-grid fade-up">
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="175" fill="#f0ead8"/>
+            <rect x="40" y="90" width="28" height="55" fill="#1a6b5c" opacity="0.35"/>
+            <rect x="78" y="60" width="28" height="85" fill="#1a6b5c" opacity="0.55"/>
+            <rect x="116" y="38" width="28" height="107" fill="#1a6b5c" opacity="0.75"/>
+            <rect x="154" y="18" width="28" height="127" fill="#1a6b5c"/>
+            <rect x="192" y="48" width="28" height="97" fill="#1a6b5c" opacity="0.7"/>
+            <rect x="230" y="68" width="28" height="77" fill="#1a6b5c" opacity="0.5"/>
+            <rect x="268" y="28" width="28" height="117" fill="#1a6b5c" opacity="0.88"/>
+            <line x1="40" y1="148" x2="320" y2="148" stroke="#111" stroke-width="0.5" opacity="0.25"/>
+            <text x="40" y="165" font-size="9" fill="#888" font-family="monospace">Healthcare Premium Predictor — Python / Scikit-learn / Streamlit</text>
+          </svg>
+          <div class="proj-tag">ML / Streamlit</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">Healthcare Insurance Premium Predictor</div>
+          <div class="proj-desc">End-to-end ML app predicting insurance premiums from demographics and health features. Includes full EDA, feature engineering, and a live Streamlit interface.</div>
+          <div class="proj-tools">
+            <span class="proj-tool">Python</span><span class="proj-tool">Scikit-learn</span><span class="proj-tool">Streamlit</span><span class="proj-tool">Pandas</span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="175" fill="#f0ead8"/>
+            <rect x="30" y="15" width="95" height="48" rx="2" fill="#1a6b5c" opacity="0.12" stroke="#1a6b5c" stroke-width="1"/>
+            <text x="77" y="34" text-anchor="middle" font-size="7" fill="#1a6b5c" font-family="monospace" font-weight="bold">Fact: Sales</text>
+            <text x="77" y="47" text-anchor="middle" font-size="6" fill="#666" font-family="monospace">order_id, date, amt</text>
+            <rect x="155" y="15" width="95" height="48" rx="2" fill="#c0392b" opacity="0.1" stroke="#c0392b" stroke-width="1"/>
+            <text x="202" y="34" text-anchor="middle" font-size="7" fill="#c0392b" font-family="monospace" font-weight="bold">Dim: Customer</text>
+            <text x="202" y="47" text-anchor="middle" font-size="6" fill="#666" font-family="monospace">cust_id, region</text>
+            <rect x="85" y="85" width="95" height="48" rx="2" fill="#d4a017" opacity="0.12" stroke="#d4a017" stroke-width="1"/>
+            <text x="132" y="104" text-anchor="middle" font-size="7" fill="#9a7010" font-family="monospace" font-weight="bold">Dim: Date</text>
+            <text x="132" y="117" text-anchor="middle" font-size="6" fill="#666" font-family="monospace">year, qtr, month</text>
+            <line x1="125" y1="39" x2="155" y2="39" stroke="#999" stroke-width="0.8" stroke-dasharray="4,3"/>
+            <line x1="77" y1="63" x2="105" y2="85" stroke="#999" stroke-width="0.8" stroke-dasharray="4,3"/>
+            <line x1="202" y1="63" x2="160" y2="85" stroke="#999" stroke-width="0.8" stroke-dasharray="4,3"/>
+            <text x="40" y="165" font-size="9" fill="#888" font-family="monospace">SQL Data Warehouse — T-SQL / Star Schema / SSMS</text>
+          </svg>
+          <div class="proj-tag">SQL / DWH</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">Enterprise SQL Data Warehouse</div>
+          <div class="proj-desc">Star-schema data warehouse with layered ETL (Bronze → Silver → Gold). Includes stored procedures, views, and reporting-ready output for business analytics.</div>
+          <div class="proj-tools">
+            <span class="proj-tool">T-SQL</span><span class="proj-tool">SSMS</span><span class="proj-tool">ETL</span><span class="proj-tool">Star Schema</span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="175" fill="#f0ead8"/>
+            <polyline points="40,140 90,100 140,118 190,68 240,88 295,48 345,68" fill="none" stroke="#1a6b5c" stroke-width="2.5"/>
+            <polyline points="40,150 90,128 140,138 190,108 240,118 295,88 345,105" fill="none" stroke="#d4a017" stroke-width="1.5" stroke-dasharray="5,3"/>
+            <circle cx="295" cy="48" r="4" fill="#1a6b5c"/>
+            <circle cx="190" cy="68" r="3" fill="#1a6b5c" opacity="0.6"/>
+            <line x1="40" y1="155" x2="345" y2="155" stroke="#111" stroke-width="0.5" opacity="0.2"/>
+            <text x="40" y="168" font-size="9" fill="#888" font-family="monospace">E-commerce Sales Analysis — Python / Pandas / Matplotlib</text>
+          </svg>
+          <div class="proj-tag">Analytics</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">E-commerce Sales Analysis</div>
+          <div class="proj-desc">Full sales funnel and trend analysis — seasonal patterns, top product categories, customer LTV segments, and campaign performance breakdowns.</div>
+          <div class="proj-tools">
+            <span class="proj-tool">Python</span><span class="proj-tool">Pandas</span><span class="proj-tool">Matplotlib</span><span class="proj-tool">Seaborn</span>
+          </div>
+        </div>
+      </div>
+      <div class="proj-card">
+        <div class="proj-thumb">
+          <svg viewBox="0 0 400 175" xmlns="http://www.w3.org/2000/svg">
+            <rect width="400" height="175" fill="#f0ead8"/>
+            <rect x="35" y="18" width="150" height="68" rx="2" fill="white" stroke="#ccc" stroke-width="0.8"/>
+            <text x="50" y="38" font-size="8" fill="#999" font-family="monospace">TOTAL REVENUE</text>
+            <text x="50" y="58" font-size="20" font-weight="bold" fill="#1a6b5c" font-family="monospace">&#8377;2.4M</text>
+            <text x="50" y="76" font-size="7" fill="#999" font-family="monospace">&#9650; 18% vs last qtr</text>
+            <rect x="215" y="18" width="150" height="68" rx="2" fill="white" stroke="#ccc" stroke-width="0.8"/>
+            <text x="228" y="38" font-size="8" fill="#999" font-family="monospace">UNITS SOLD</text>
+            <text x="228" y="58" font-size="20" font-weight="bold" fill="#111" font-family="monospace">14,832</text>
+            <text x="228" y="76" font-size="7" fill="#c0392b" font-family="monospace">&#9660; 3% vs last qtr</text>
+            <rect x="35" y="100" width="330" height="38" rx="2" fill="white" stroke="#ccc" stroke-width="0.8"/>
+            <rect x="48" y="112" width="90" height="16" rx="1" fill="#1a6b5c" opacity="0.85"/>
+            <rect x="146" y="112" width="55" height="16" rx="1" fill="#d4a017" opacity="0.85"/>
+            <rect x="209" y="112" width="35" height="16" rx="1" fill="#c0392b" opacity="0.85"/>
+            <text x="40" y="160" font-size="9" fill="#888" font-family="monospace">Executive Sales Report — Power BI / T-SQL / DAX</text>
+          </svg>
+          <div class="proj-tag">BI Report</div>
+        </div>
+        <div class="proj-body">
+          <div class="proj-title">Executive Sales Report Dashboard</div>
+          <div class="proj-desc">Multi-page Power BI report combining SQL-driven data with rich visuals — revenue trends, rep performance, and regional breakdowns in one clean executive view.</div>
+          <div class="proj-tools">
+            <span class="proj-tool">Power BI</span><span class="proj-tool">T-SQL</span><span class="proj-tool">DAX</span><span class="proj-tool">Excel</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SKILLS -->
+<section id="skills">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">04</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">Skills &amp; Tools</h2>
+    </div>
+    <div class="sk-layout fade-up">
+      <div>
+        <div class="sk-group-title">Languages &amp; Querying</div>
+        <div class="sk-row"><span class="sk-name">SQL / T-SQL</span><div class="sk-track"><div class="sk-fill" style="width:95%;animation-delay:.1s"></div></div><span class="sk-pct">95%</span></div>
+        <div class="sk-row"><span class="sk-name">Python</span><div class="sk-track"><div class="sk-fill" style="width:88%;animation-delay:.2s"></div></div><span class="sk-pct">88%</span></div>
+        <div class="sk-row"><span class="sk-name">BigQuery</span><div class="sk-track"><div class="sk-fill" style="width:82%;animation-delay:.25s"></div></div><span class="sk-pct">82%</span></div>
+        <div class="sk-row"><span class="sk-name">Excel</span><div class="sk-track"><div class="sk-fill" style="width:90%;animation-delay:.3s"></div></div><span class="sk-pct">90%</span></div>
+        <div class="sk-group-title" style="margin-top:1.8rem">BI &amp; Visualisation</div>
+        <div class="sk-row"><span class="sk-name">Tableau</span><div class="sk-track"><div class="sk-fill" style="width:85%;animation-delay:.35s"></div></div><span class="sk-pct">85%</span></div>
+        <div class="sk-row"><span class="sk-name">Power BI</span><div class="sk-track"><div class="sk-fill" style="width:83%;animation-delay:.4s"></div></div><span class="sk-pct">83%</span></div>
+        <div class="sk-row"><span class="sk-name">Looker Studio</span><div class="sk-track"><div class="sk-fill" style="width:88%;animation-delay:.45s"></div></div><span class="sk-pct">88%</span></div>
+        <div class="sk-row"><span class="sk-name">Streamlit</span><div class="sk-track"><div class="sk-fill" style="width:76%;animation-delay:.5s"></div></div><span class="sk-pct">76%</span></div>
+      </div>
+      <div>
+        <div class="sk-group-title">Machine Learning</div>
+        <div class="sk-row"><span class="sk-name">Scikit-learn</span><div class="sk-track"><div class="sk-fill" style="width:78%;animation-delay:.3s"></div></div><span class="sk-pct">78%</span></div>
+        <div class="sk-row"><span class="sk-name">Regression</span><div class="sk-track"><div class="sk-fill" style="width:84%;animation-delay:.35s"></div></div><span class="sk-pct">84%</span></div>
+        <div class="sk-row"><span class="sk-name">Classification</span><div class="sk-track"><div class="sk-fill" style="width:80%;animation-delay:.4s"></div></div><span class="sk-pct">80%</span></div>
+        <div class="sk-row"><span class="sk-name">EDA</span><div class="sk-track"><div class="sk-fill" style="width:90%;animation-delay:.45s"></div></div><span class="sk-pct">90%</span></div>
+        <div class="sk-group-title" style="margin-top:1.8rem">Data Engineering</div>
+        <div class="sk-row"><span class="sk-name">ETL Pipelines</span><div class="sk-track"><div class="sk-fill" style="width:85%;animation-delay:.5s"></div></div><span class="sk-pct">85%</span></div>
+        <div class="sk-row"><span class="sk-name">Data Modeling</span><div class="sk-track"><div class="sk-fill" style="width:82%;animation-delay:.55s"></div></div><span class="sk-pct">82%</span></div>
+        <div class="sk-row"><span class="sk-name">GCP / Oracle</span><div class="sk-track"><div class="sk-fill" style="width:78%;animation-delay:.6s"></div></div><span class="sk-pct">78%</span></div>
+        <div class="sk-row"><span class="sk-name">Neural Networks</span><div class="sk-track"><div class="sk-fill" style="width:65%;animation-delay:.65s"></div></div><span class="sk-pct">65%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CERTIFICATIONS -->
+<section id="certs">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">05</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">Certifications</h2>
+    </div>
+    <div class="cert-grid fade-up">
+      <div class="cert-card">
+        <div class="cert-issuer">Oracle</div>
+        <div class="cert-name">Oracle Analytics Cloud 2025 Certified Professional</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Microsoft &amp; LinkedIn</div>
+        <div class="cert-name">Career Essentials in Data Analysis</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Microsoft &amp; LinkedIn</div>
+        <div class="cert-name">Career Essentials in Generative AI</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">Quantium</div>
+        <div class="cert-name">Data Analytics Job Simulation</div>
+      </div>
+      <div class="cert-card">
+        <div class="cert-issuer">GE Aerospace</div>
+        <div class="cert-name">Explore Human Resources Programme</div>
+      </div>
+      <div class="cert-card accent">
+        <div class="cert-issuer" style="color: var(--ink);">Education</div>
+        <div class="cert-name">BCA — Data Analytics<br><span style="font-family:'Space Mono',monospace;font-size:0.65rem;font-weight:400;color:#555">TIPS Dwarka &bull; 2022–2025</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">06</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">What Clients Say</h2>
+    </div>
+    <div class="test-grid fade-up">
+      <div class="test-card">
+        <div class="test-quote">"Yogish built us a dashboard that finally made our sales data make sense. What used to take hours of Excel now takes one click. Exceptional work."</div>
+        <div class="test-name">Priya Menon</div>
+        <div class="test-role">Head of Sales, FinTech Startup</div>
+      </div>
+      <div class="test-card">
+        <div class="test-quote">"The data warehouse he designed has completely changed how we report to leadership. Clean, fast, and exactly what we needed. Delivered on time and on budget."</div>
+        <div class="test-name">Rahul Sharma</div>
+        <div class="test-role">COO, E-commerce Brand</div>
+      </div>
+      <div class="test-card">
+        <div class="test-quote">"His ML model for premium pricing was spot-on — 91% accuracy and a Streamlit UI our team actually uses daily. Highly recommend for any serious analytics project."</div>
+        <div class="test-name">Ankit Joshi</div>
+        <div class="test-role">Data Lead, Healthcare SaaS</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="sec-inner">
+    <div class="sec-head fade-up">
+      <span class="sec-num">07</span>
+      <div class="sec-rule"></div>
+      <h2 class="sec-title">Let's Talk</h2>
+    </div>
+    <div class="contact-layout fade-up">
+      <div>
+        <div class="contact-headline">Got data?<br>Let's make it<br><em>useful.</em></div>
+        <p class="contact-sub">Open to freelance projects, consulting engagements, and long-term collaborations — globally. Whether it's a one-off dashboard or a full data platform, let's figure it out together.</p>
+        <div class="contact-detail">
+          <strong>Email</strong><br>yogishbakshi.2004@gmail.com<br><br>
+          <strong>LinkedIn</strong><br>linkedin.com/in/yogish-bakshi<br><br>
+          <strong>GitHub</strong><br>github.com/ycoder18<br><br>
+          <strong>Location</strong><br>Delhi, India &mdash; available globally
+        </div>
+      </div>
+      <div>
+        <form class="cform" onsubmit="event.preventDefault(); alert('Message sent! Yogish will get back to you within 24 hours.')">
+          <div class="cform-row">
+            <div><label>Your Name</label><input type="text" placeholder="Priya Menon" required></div>
+            <div><label>Email</label><input type="email" placeholder="priya@company.com" required></div>
+          </div>
+          <div>
+            <label>Project Type</label>
+            <select>
+              <option>Dashboard Design</option>
+              <option>Reporting &amp; Business Insights</option>
+              <option>SQL &amp; Database Work</option>
+              <option>ETL Pipeline Design</option>
+              <option>Data Warehousing</option>
+              <option>Predictive Analytics / ML</option>
+              <option>Cloud Analytics (GCP / Oracle)</option>
+              <option>Ad-Hoc Analysis</option>
+              <option>Training &amp; Consulting</option>
+            </select>
+          </div>
+          <div>
+            <label>Tell me about your project</label>
+            <textarea placeholder="What data problem are you trying to solve?" required></textarea>
+          </div>
+          <button type="submit" class="cform-btn">Send it &rarr;</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="foot-left">Yogish Bakshi &mdash; <em>Data Analyst</em></div>
+  <div class="foot-right">
+    <a href="https://www.linkedin.com/in/yogish-bakshi" target="_blank">LinkedIn</a>
+    <a href="https://github.com/ycoder18" target="_blank">GitHub</a>
+    <a href="mailto:yogishbakshi.2004@gmail.com">Email</a>
+  </div>
+</footer>
+
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
