@@ -716,14 +716,14 @@
         </div>
       </div>
       <div>
-        <form class="cform" onsubmit="event.preventDefault(); alert('Message sent! Yogish will get back to you within 24 hours.')">
+        <form class="cform" id="contactForm">
           <div class="cform-row">
-            <div><label>Your Name</label><input type="text" placeholder="Priya Menon" required></div>
-            <div><label>Email</label><input type="email" placeholder="priya@company.com" required></div>
+            <div><label>Your Name</label><input type="text" id="fname" placeholder="Priya Menon" required></div>
+            <div><label>Email</label><input type="email" id="femail" placeholder="priya@company.com" required></div>
           </div>
           <div>
             <label>Project Type</label>
-            <select>
+            <select id="ftype">
               <option>Dashboard Design</option>
               <option>Reporting &amp; Business Insights</option>
               <option>SQL &amp; Database Work</option>
@@ -737,9 +737,9 @@
           </div>
           <div>
             <label>Tell me about your project</label>
-            <textarea placeholder="What data problem are you trying to solve?" required></textarea>
+            <textarea id="fmessage" placeholder="What data problem are you trying to solve?" required></textarea>
           </div>
-          <button type="submit" class="cform-btn">Send it &rarr;</button>
+          <button type="button" class="cform-btn" id="submitBtn" onclick="submitForm()">Send it &rarr;</button>
         </form>
       </div>
     </div>
@@ -761,6 +761,40 @@
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
   }, { threshold: 0.08 });
   document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzVTVDkVJN91QUiRNU-vsL7KTXxGetdQXdOwLdMQ4U9GZCDhbjGQRgrZ5KhXP9rO6d6/exec";
+
+  async function submitForm() {
+    const name = document.getElementById('fname').value.trim();
+    const email = document.getElementById('femail').value.trim();
+    const projectType = document.getElementById('ftype').value;
+    const message = document.getElementById('fmessage').value.trim();
+
+    if (!name || !email || !message) {
+      alert('Please fill in all required fields.');
+      return;
+    }
+
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+
+    try {
+      await fetch(SCRIPT_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, projectType, message })
+      });
+      alert('Message sent! Yogish will get back to you within 24 hours.');
+      document.getElementById('contactForm').reset();
+    } catch (err) {
+      alert('Something went wrong. Please email directly: yogishbakshi.2004@gmail.com');
+    }
+
+    btn.textContent = 'Send it \u2192';
+    btn.disabled = false;
+  }
 </script>
 </body>
 </html>
